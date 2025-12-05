@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Математическая логика и теория алгоритмов - СПбГЭТУ «ЛЭТИ»</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Neucha&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            font-family: 'Neucha', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, h5, h6, .navbar-brand, .section-title {
+            font-family: 'Neucha', cursive;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+
+        .main-container {
+            background: rgba(255,255,255,0.98);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border: 1px solid #b1dfbb;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .btn-action {
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            margin: 0.3rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .example-chip {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1976d2;
+            padding: 0.3rem 0.8rem;
+            margin: 0.2rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .example-chip:hover {
+            background: #2196f3;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .truth-table {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin: 1rem 0;
+        }
+
+        .truth-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .truth-table td {
+            text-align: center;
+            padding: 0.8rem;
+            font-weight: 500;
+        }
+
+        .karnaugh-cell {
+            width: 60px;
+            height: 60px;
+            text-align: center;
+            vertical-align: middle;
+            border: 2px solid #dee2e6;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .karnaugh-cell:hover {
+            background: #e3f2fd;
+            transform: scale(1.1);
+        }
+
+        .karnaugh-cell.group-1 { background-color: #ffeb3b; border-color: #ffc107; }
+        .karnaugh-cell.group-2 { background-color: #81c784; border-color: #4caf50; }
+
+        /* Turing Machine Styles */
+        .turing-tape {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            margin: 1rem 0;
+        }
+
+        .turing-cell {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.9);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .turing-cell.head {
+            background: #ffeb3b;
+            transform: scale(1.15);
+            box-shadow: 0 0 15px rgba(255,235,59,0.8);
+        }
+
+        /* Markov Algorithm Styles */
+        .markov-steps {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 1rem;
+            background: #fafafa;
+        }
+
+        .markov-step {
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            background: white;
+            border-left: 4px solid var(--secondary-color);
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .markov-step.current {
+            background: #e3f2fd;
+            border-left-color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .formula-display {
+            background: #f8f9fa;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .step-box {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-left: 5px solid var(--secondary-color);
+        }
+
+        .zhegalkin-triangle {
+            display: inline-block;
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .triangle-row {
+            display: flex;
+            justify-content: center;
+            margin: 0.25rem 0;
+        }
+
+        .triangle-cell {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #dee2e6;
+            margin: 1px;
+            font-weight: bold;
+            background: #f8f9fa;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .triangle-cell:hover {
+            background: #e3f2fd;
+            transform: scale(1.1);
+        }
+
+        /* Zhegalkin Table Method Styles */
+        .zhegalkin-table {
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .zhegalkin-table table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .zhegalkin-table th, .zhegalkin-table td {
+            border: 1px solid #dee2e6;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        .zhegalkin-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+
+        .zhegalkin-table td.highlight {
+            background: #fff3cd;
+        }
+
+        .zhegalkin-table td.coef {
+            background: #d4edda;
+            font-weight: bold;
+        }
+
+        /* Info Box Styles */
+        .info-box {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 1px solid #90caf9;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-box h6 {
+            color: #1565c0;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-box ul {
+            margin-bottom: 0;
+            padding-left: 1.2rem;
+        }
+
+        .info-box li {
+            margin-bottom: 0.3rem;
+        }
+
+        /* Method selector styles */
+        .method-selector {
+            margin: 1rem 0;
+        }
+
+        .method-btn {
+            margin: 0.25rem;
+        }
+
+        .method-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                margin: 1rem;
+                padding: 1rem;
+            }
+            .turing-cell, .karnaugh-cell {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="letipic.png" alt="ЛЭТИ" style="height: 40px; margin-right: 10px;"> Calculator</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#logical-functions">Таблицы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#dnf-cnf">ДНФ/СКНФ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#karnaugh">Карно</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#zhegalkin">Жегалкин</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#turing">Тьюринг</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#markov">Марков</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Project Info Header -->
+            <div class="text-center mb-4 p-3" style="background: linear-gradient(135deg, #1a237e 0%, #3949ab 100%); border-radius: 15px; color: white;">
+                <img src="letipic.png" alt="ЛЭТИ" style="height: 80px; margin-bottom: 10px;">
+                <h2 class="mb-2">Математическая логика и теория алгоритмов</h2>
+            
+                <hr style="border-color: rgba(255,255,255,0.3);">
+                <p class="mb-1">Проект выполнил: <strong>Юсфи Абделькадер</strong></p>
+                <p class="mb-0">Преподаватель: <strong>Михальченко Александра Викторовна</strong></p>
+            </div>
+            <!-- Логические функции и таблицы истинности -->
+            <section id="logical-functions" class="section-card">
+                <h3 class="section-title"><i class="fas fa-table"></i> Таблицы истинности</h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Логическая функция:</label>
+                            <input type="text" class="form-control form-control-lg" id="function-input" 
+                                   placeholder="A AND B OR NOT C" value="A AND B">
+                            <div class="mt-2">
+                                <small>Примеры: </small>
+                                <span class="example-chip" onclick="document.getElementById('function-input').value='A AND B'">A AND B</span>
+                                <span class="example-chip" onclick="document.getElementById('function-input').value='A OR NOT B'">A OR NOT B</span>
+                                <span class="example-chip" onclick="document.getElementById('function-input').value='A XOR B'">A XOR B</span>
+                                <span class="example-chip" onclick="document.getElementById('function-input').value='(A AND B) OR C'">A AND B OR C</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Количество переменных:</label>
+                            <select class="form-select" id="variables-count">
+                                <option value="2">2 переменные (A, B)</option>
+                                <option value="3">3 переменные (A, B, C)</option>
+                                <option value="4">4 переменные (A, B, C, D)</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary btn-action" onclick="generateTruthTable()">
+                            <i class="fas fa-calculator"></i> Построить таблицу
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-info">
+                            <h6><i class="fas fa-info-circle"></i> Поддерживаемые операции:</h6>
+                            <ul class="mb-0">
+                                <li><strong>AND</strong> - конъюнкция (∧)</li>
+                                <li><strong>OR</strong> - дизъюнкция (∨)</li>
+                                <li><strong>NOT</strong> - отрицание (¬)</li>
+                                <li><strong>XOR</strong> - исключающее ИЛИ (⊕)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="truth-table-result" class="mt-3"></div>
+            </section>
+
+            <!-- ДНФ и СКНФ -->
+            <section id="dnf-cnf" class="section-card">
+                <h3 class="section-title"><i class="fas fa-code-branch"></i> ДНФ и СКНФ</h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Вектор функции (только 0 и 1):</label>
+                            <input type="text" class="form-control form-control-lg" id="dnf-function" 
+                                   placeholder="00010111" value="00010111">
+                            <div class="mt-2">
+                                <small>Примеры: </small>
+                                <span class="example-chip" onclick="document.getElementById('dnf-function').value='0110'">0110 (2 перем.)</span>
+                                <span class="example-chip" onclick="document.getElementById('dnf-function').value='00010111'">00010111 (3 перем.)</span>
+                                <span class="example-chip" onclick="document.getElementById('dnf-function').value='10101010'">10101010</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-success btn-action" onclick="calculateDNF()">
+                            <i class="fas fa-code-branch"></i> Построить ДНФ
+                        </button>
+                        <button class="btn btn-warning btn-action" onclick="calculateCNF()">
+                            <i class="fas fa-code-branch"></i> Построить СКНФ
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="dnf-result"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Карты Карно -->
+            <section id="karnaugh" class="section-card">
+                <h3 class="section-title"><i class="fas fa-th"></i> Карты Карно</h3>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Вектор функции:</label>
+                            <input type="text" class="form-control" id="karnaugh-function" 
+                                   placeholder="00010111" value="00010111">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Переменные:</label>
+                            <select class="form-select" id="karnaugh-vars">
+                                <option value="2">2 переменные</option>
+                                <option value="3" selected>3 переменные</option>
+                                <option value="4">4 переменные</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-info btn-action" onclick="buildKarnaughMap()">
+                            <i class="fas fa-th"></i> Построить карту
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div id="karnaugh-map" class="text-center"></div>
+                        <div id="karnaugh-result" class="mt-3"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Полиномы Жегалкина -->
+            <section id="zhegalkin" class="section-card">
+                <h3 class="section-title"><i class="fas fa-superscript"></i> Полиномы Жегалкина</h3>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Вектор функции:</label>
+                            <input type="text" class="form-control" id="zhegalkin-function" 
+                                   placeholder="00010111" value="00010111">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Метод построения:</label>
+                            <div class="method-selector">
+                                <button class="btn btn-outline-primary method-btn active" id="method-triangle-btn" onclick="setZhegalkinMethod('triangle')">
+                                    <i class="fas fa-caret-down"></i> Треугольник
+                                </button>
+                                <button class="btn btn-outline-primary method-btn" id="method-table-btn" onclick="setZhegalkinMethod('table')">
+                                    <i class="fas fa-table"></i> Табличный метод
+                                </button>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-action" onclick="calculateZhegalkin()">
+                            <i class="fas fa-calculator"></i> Построить полином
+                        </button>
+                    </div>
+                    <div class="col-md-8">
+                        <div id="zhegalkin-result"></div>
+                        <div id="zhegalkin-visualization" class="text-center mt-3"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Машина Тьюринга -->
+            <section id="turing" class="section-card">
+                <h3 class="section-title"><i class="fas fa-tape"></i> Машина Тьюринга</h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Инструкция по использованию -->
+                        <div class="info-box mb-3">
+                            <h6><i class="fas fa-question-circle"></i> Как использовать машину Тьюринга:</h6>
+                            <ul>
+                                <li><strong>Входная строка:</strong> символы, которые будут записаны на ленту</li>
+                                <li><strong>B</strong> - пустой символ (blank)</li>
+                                <li><strong>qf</strong> - конечное состояние (машина останавливается)</li>
+                            </ul>
+                            <p class="mb-1"><strong>Формат правил:</strong></p>
+                            <code>состояние, читаемый_символ, записываемый_символ, направление, новое_состояние</code>
+                            <p class="mt-2 mb-0"><strong>Направления:</strong> R (вправо), L (влево), N (на месте)</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Входная строка:</label>
+                            <input type="text" class="form-control form-control-lg" id="turing-input" 
+                                   placeholder="111" value="11+11">
+                            <div class="mt-2">
+                                <small>Примеры: </small>
+                                <span class="example-chip" onclick="document.getElementById('turing-input').value='111'">111</span>
+                                <span class="example-chip" onclick="document.getElementById('turing-input').value='11+11'">11+11</span>
+                                <span class="example-chip" onclick="document.getElementById('turing-input').value='1111'">1111</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Правила перехода:</label>
+                            <textarea class="form-control" id="turing-rules" rows="8" placeholder="формат: состояние,символ,новый_символ,направление,новое_состояние">q0,1,1,R,q0
+q0,+,1,R,q1
+q1,1,1,R,q1
+q1,B,B,L,q2
+q2,1,B,N,qf</textarea>
+                            <div class="mt-2">
+                                <small>Алгоритмы: </small>
+                                <span class="example-chip" onclick="loadTuringExample('increment')">+1 (унарный)</span>
+                                <span class="example-chip" onclick="loadTuringExample('double')">Удвоение</span>
+                                <span class="example-chip" onclick="loadTuringExample('addition')">Сложение</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-success btn-action" onclick="runTuringMachine()">
+                                <i class="fas fa-play"></i> Запустить
+                            </button>
+                            <button class="btn btn-secondary btn-action" onclick="stepTuringMachine()">
+                                <i class="fas fa-step-forward"></i> Шаг
+                            </button>
+                            <button class="btn btn-warning btn-action" onclick="resetTuringMachine()">
+                                <i class="fas fa-redo"></i> Сброс
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="turing-tape" class="turing-tape">
+                            <div class="text-white text-center w-100">Лента появится после запуска</div>
+                        </div>
+                        <div class="step-box">
+                            <strong>Состояние:</strong> <span id="current-state">q0</span> | 
+                            <strong>Шагов:</strong> <span id="step-count">0</span>
+                        </div>
+                        <div id="turing-result" class="mt-3"></div>
+                        <div id="turing-explanation" class="mt-3"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Алгоритм Маркова -->
+            <section id="markov" class="section-card">
+                <h3 class="section-title"><i class="fas fa-exchange-alt"></i> Алгоритм Маркова</h3>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- Инструкция по использованию -->
+                        <div class="info-box mb-3">
+                            <h6><i class="fas fa-question-circle"></i> Как использовать алгоритм Маркова:</h6>
+                            <ul>
+                                <li><strong>Входная строка:</strong> строка, которую будем преобразовывать</li>
+                                <li><strong>Правила:</strong> задаются в формате <code>образец -> замена</code></li>
+                                <li>Правила применяются сверху вниз по приоритету</li>
+                                <li>Заменяется только <strong>первое</strong> вхождение образца</li>
+                                <li>После замены поиск начинается сначала (с первого правила)</li>
+                            </ul>
+                            <p class="mb-1"><strong>Завершающие правила:</strong></p>
+                            <ul>
+                                <li><code>.образец -> замена</code> - точка в начале означает остановку после применения</li>
+                            </ul>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Входная строка:</label>
+                            <input type="text" class="form-control form-control-lg" id="markov-input" 
+                                   placeholder="aaabbb" value="abc">
+                            <div class="mt-2">
+                                <small>Примеры: </small>
+                                <span class="example-chip" onclick="document.getElementById('markov-input').value='abc'">abc</span>
+                                <span class="example-chip" onclick="document.getElementById('markov-input').value='111'">111</span>
+                                <span class="example-chip" onclick="document.getElementById('markov-input').value='aabaca'">aabaca</span>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Правила подстановки (образец -> замена):</label>
+                            <textarea class="form-control" id="markov-rules" rows="5" placeholder="a -> aa
+b -> bb
+c -> cc">a -> x
+b -> y
+c -> z</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <button class="btn btn-success btn-action" onclick="runMarkovAlgorithm()">
+                                <i class="fas fa-play"></i> Запустить
+                            </button>
+                            <button class="btn btn-secondary btn-action" onclick="stepMarkovAlgorithm()">
+                                <i class="fas fa-step-forward"></i> Шаг
+                            </button>
+                            <button class="btn btn-warning btn-action" onclick="resetMarkovAlgorithm()">
+                                <i class="fas fa-redo"></i> Сброс
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div id="markov-steps" class="markov-steps">
+                            <div class="text-muted text-center">Шаги выполнения появятся здесь</div>
+                        </div>
+                        <div id="markov-result" class="mt-3"></div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-4">
+        <div class="container text-center">
+            <p class="mb-2"><strong>Санкт-Петербургский государственный электротехнический университет «ЛЭТИ» им. В.И. Ульянова (Ленина)</strong></p>
+            <p class="mb-2">СПбГЭТУ «ЛЭТИ»</p>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <p class="mb-1">Проект выполнил: <strong>Юсфи Абделькадер</strong></p>
+            <p class="mb-0">Преподаватель: <strong>Михальченко Александра Викторовна</strong></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
+        function getVariableNames(count) {
+            const names = [];
+            for (let i = 0; i < count; i++) {
+                names.push(String.fromCharCode(65 + i));
+            }
+            return names;
+        }
+
+        function getBinaryValues(number, bits) {
+            return number.toString(2).padStart(bits, '0').split('').map(bit => parseInt(bit));
+        }
+
+        // ========== ТАБЛИЦЫ ИСТИННОСТИ ==========
+        function generateTruthTable() {
+            const functionInput = document.getElementById('function-input').value.trim();
+            const variablesCount = parseInt(document.getElementById('variables-count').value);
+            
+            if (!functionInput) {
+                alert('Пожалуйста, введите логическую функцию');
+                return;
+            }
+            
+            try {
+                const variables = getVariableNames(variablesCount);
+                const rows = Math.pow(2, variablesCount);
+                const results = [];
+                
+                for (let i = 0; i < rows; i++) {
+                    const values = getBinaryValues(i, variablesCount);
+                    const context = {};
+                    variables.forEach((variable, index) => {
+                        context[variable] = values[index];
+                    });
+                    
+                    const result = evaluateLogicalExpression(functionInput, context);
+                    results.push({ values: values, result: result });
+                }
+                
+                displayTruthTable({ variables: variables, results: results });
+            } catch (error) {
+                alert('Ошибка: ' + error.message);
+            }
+        }
+
+        function evaluateLogicalExpression(expression, context) {
+            let processed = expression.toUpperCase();
+            
+            Object.keys(context).forEach(variable => {
+                const regex = new RegExp(`\\b${variable}\\b`, 'g');
+                processed = processed.replace(regex, context[variable]);
+            });
+            
+            processed = processed
+                .replace(/\bNOT\b/g, '!')
+                .replace(/\bAND\b/g, '&&')
+                .replace(/\bOR\b/g, '||')
+                .replace(/\bXOR\b/g, '!==');
+            
+            try {
+                return Function('"use strict"; return (' + processed + ')')() ? 1 : 0;
+            } catch (error) {
+                throw new Error('Невозможно вычислить выражение');
+            }
+        }
+
+        function displayTruthTable(result) {
+            const container = document.getElementById('truth-table-result');
+            
+            let html = '<div class="truth-table"><table class="table table-bordered table-hover">';
+            html += '<thead><tr>';
+            result.variables.forEach(v => html += `<th>${v}</th>`);
+            html += '<th>F</th></tr></thead><tbody>';
+            
+            result.results.forEach(row => {
+                html += '<tr>';
+                row.values.forEach(v => html += `<td>${v}</td>`);
+                html += `<td><strong>${row.result}</strong></td></tr>`;
+            });
+            
+            html += '</tbody></table></div>';
+            
+            // Добавляем вектор функции
+            const vector = result.results.map(r => r.result).join('');
+            html += `<div class="alert alert-success mt-2"><strong>Вектор функции:</strong> ${vector}</div>`;
+            
+            container.innerHTML = html;
+        }
+
+        // ========== ДНФ И СКНФ ==========
+        function calculateDNF() {
+            const vectorInput = document.getElementById('dnf-function').value.trim();
+            
+            if (!vectorInput || !/^[01]+$/.test(vectorInput)) {
+                alert('Введите корректный вектор функции (только 0 и 1)');
+                return;
+            }
+            
+            const bits = vectorInput.split('').map(bit => parseInt(bit));
+            const variableCount = Math.log2(bits.length);
+            
+            if (!Number.isInteger(variableCount)) {
+                alert('Длина вектора должна быть степенью 2');
+                return;
+            }
+            
+            const variables = getVariableNames(variableCount);
+            const implicants = [];
+            
+            for (let i = 0; i < bits.length; i++) {
+                if (bits[i] === 1) {
+                    const binary = i.toString(2).padStart(variableCount, '0');
+                    const terms = [];
+                    
+                    for (let j = 0; j < binary.length; j++) {
+                        terms.push(binary[j] === '1' ? variables[j] : variables[j] + "'");
+                    }
+                    implicants.push(terms.join('∧'));
+                }
+            }
+            
+            const expression = implicants.length > 0 ? implicants.join(' ∨ ') : '0';
+            
+            document.getElementById('dnf-result').innerHTML = `
+                <div class="result-box">
+                    <h6><i class="fas fa-check-circle"></i> ДНФ (Дизъюнктивная нормальная форма)</h6>
+                    <div class="formula-display">${expression}</div>
+                    <p><strong>Количество конституент единицы:</strong> ${implicants.length}</p>
+                </div>
+            `;
+        }
+
+        function calculateCNF() {
+            const vectorInput = document.getElementById('dnf-function').value.trim();
+            
+            if (!vectorInput || !/^[01]+$/.test(vectorInput)) {
+                alert('Введите корректный вектор функции (только 0 и 1)');
+                return;
+            }
+            
+            const bits = vectorInput.split('').map(bit => parseInt(bit));
+            const variableCount = Math.log2(bits.length);
+            
+            if (!Number.isInteger(variableCount)) {
+                alert('Длина вектора должна быть степенью 2');
+                return;
+            }
+            
+            const variables = getVariableNames(variableCount);
+            const clauses = [];
+            
+            for (let i = 0; i < bits.length; i++) {
+                if (bits[i] === 0) {
+                    const binary = i.toString(2).padStart(variableCount, '0');
+                    const terms = [];
+                    
+                    for (let j = 0; j < binary.length; j++) {
+                        terms.push(binary[j] === '0' ? variables[j] : variables[j] + "'");
+                    }
+                    clauses.push('(' + terms.join('∨') + ')');
+                }
+            }
+            
+            const expression = clauses.length > 0 ? clauses.join(' ∧ ') : '1';
+            
+            document.getElementById('dnf-result').innerHTML = `
+                <div class="result-box">
+                    <h6><i class="fas fa-check-circle"></i> СКНФ (Совершенная конъюнктивная нормальная форма)</h6>
+                    <div class="formula-display">${expression}</div>
+                    <p><strong>Количество конституент нуля:</strong> ${clauses.length}</p>
+                </div>
+            `;
+        }
+
+        // ========== КАРТЫ КАРНО ==========
+        function buildKarnaughMap() {
+            const vectorInput = document.getElementById('karnaugh-function').value.trim();
+            const variablesCount = parseInt(document.getElementById('karnaugh-vars').value);
+            
+            if (!vectorInput || !/^[01]+$/.test(vectorInput)) {
+                alert('Введите корректный вектор функции');
+                return;
+            }
+            
+            const expectedLength = Math.pow(2, variablesCount);
+            if (vectorInput.length !== expectedLength) {
+                alert(`Для ${variablesCount} переменных ожидается вектор длиной ${expectedLength}`);
+                return;
+            }
+            
+            const bits = vectorInput.split('').map(bit => parseInt(bit));
+            let map;
+            
+            switch (variablesCount) {
+                case 2:
+                    map = [[bits[0], bits[1]], [bits[2], bits[3]]];
+                    break;
+                case 3:
+                    map = [[bits[0], bits[1], bits[3], bits[2]], [bits[4], bits[5], bits[7], bits[6]]];
+                    break;
+                case 4:
+                    map = [
+                        [bits[0], bits[1], bits[3], bits[2]],
+                        [bits[4], bits[5], bits[7], bits[6]],
+                        [bits[12], bits[13], bits[15], bits[14]],
+                        [bits[8], bits[9], bits[11], bits[10]]
+                    ];
+                    break;
+            }
+            
+            displayKarnaughMap(map, variablesCount);
+        }
+
+        function displayKarnaughMap(map, variablesCount) {
+            const container = document.getElementById('karnaugh-map');
+            const variables = getVariableNames(variablesCount);
+            
+            let html = '<table class="table table-bordered" style="width: auto; margin: auto;">';
+            
+            if (variablesCount === 2) {
+                html += `<tr><th>${variables[0]}\\${variables[1]}</th><th>0</th><th>1</th></tr>`;
+                for (let i = 0; i < 2; i++) {
+                    html += `<tr><th>${i}</th>`;
+                    for (let j = 0; j < 2; j++) {
+                        html += `<td class="karnaugh-cell">${map[i][j]}</td>`;
+                    }
+                    html += '</tr>';
+                }
+            } else if (variablesCount === 3) {
+                html += `<tr><th>${variables[0]}\\${variables[1]}${variables[2]}</th><th>00</th><th>01</th><th>11</th><th>10</th></tr>`;
+                for (let i = 0; i < 2; i++) {
+                    html += `<tr><th>${i}</th>`;
+                    for (let j = 0; j < 4; j++) {
+                        html += `<td class="karnaugh-cell">${map[i][j]}</td>`;
+                    }
+                    html += '</tr>';
+                }
+            } else if (variablesCount === 4) {
+                html += `<tr><th>${variables[0]}${variables[1]}\\${variables[2]}${variables[3]}</th><th>00</th><th>01</th><th>11</th><th>10</th></tr>`;
+                const rowLabels = ['00', '01', '11', '10'];
+                for (let i = 0; i < 4; i++) {
+                    html += `<tr><th>${rowLabels[i]}</th>`;
+                    for (let j = 0; j < 4; j++) {
+                        html += `<td class="karnaugh-cell">${map[i][j]}</td>`;
+                    }
+                    html += '</tr>';
+                }
+            }
+            
+            html += '</table>';
+            container.innerHTML = html;
+            
+            document.getElementById('karnaugh-result').innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Карта Карно построена для ${variablesCount} переменных
+                </div>
+            `;
+        }
+
+        // ========== ПОЛИНОМЫ ЖЕГАЛКИНА ==========
+        let zhegalkinMethod = 'triangle';
+
+        function setZhegalkinMethod(method) {
+            zhegalkinMethod = method;
+            document.getElementById('method-triangle-btn').classList.toggle('active', method === 'triangle');
+            document.getElementById('method-table-btn').classList.toggle('active', method === 'table');
+        }
+
+        function calculateZhegalkin() {
+            const vectorInput = document.getElementById('zhegalkin-function').value.trim();
+            
+            if (!vectorInput || !/^[01]+$/.test(vectorInput)) {
+                alert('Введите корректный вектор функции');
+                return;
+            }
+            
+            const bits = vectorInput.split('').map(bit => parseInt(bit));
+            const variableCount = Math.log2(bits.length);
+            
+            if (!Number.isInteger(variableCount)) {
+                alert('Длина вектора должна быть степенью 2');
+                return;
+            }
+
+            if (zhegalkinMethod === 'triangle') {
+                calculateZhegalkinTriangle(bits, variableCount);
+            } else {
+                calculateZhegalkinTable(bits, variableCount);
+            }
+        }
+
+        function calculateZhegalkinTriangle(bits, variableCount) {
+            // Построение треугольника (метод Паскаля)
+            const triangle = [];
+            let currentRow = [...bits];
+            triangle.push([...currentRow]);
+            
+            while (currentRow.length > 1) {
+                const nextRow = [];
+                for (let i = 0; i < currentRow.length - 1; i++) {
+                    nextRow.push(currentRow[i] ^ currentRow[i + 1]);
+                }
+                triangle.push([...nextRow]);
+                currentRow = nextRow;
+            }
+            
+            const coefficients = triangle.map(row => row[0]);
+            const polynomial = buildPolynomialString(coefficients, variableCount);
+            
+            document.getElementById('zhegalkin-result').innerHTML = `
+                <div class="result-box">
+                    <h6><i class="fas fa-superscript"></i> Полином Жегалкина (метод треугольника)</h6>
+                    <div class="formula-display">${polynomial}</div>
+                    <p><strong>Коэффициенты:</strong> ${coefficients.join(', ')}</p>
+                </div>
+            `;
+            
+            // Отображение треугольника
+            let triangleHtml = '<div class="zhegalkin-triangle">';
+            triangle.forEach((row, rowIndex) => {
+                triangleHtml += '<div class="triangle-row">';
+                row.forEach((cell, cellIndex) => {
+                    const isCoef = cellIndex === 0;
+                    const style = isCoef ? 'background: #d4edda; border-color: #28a745;' : '';
+                    triangleHtml += `<div class="triangle-cell" style="${style}">${cell}</div>`;
+                });
+                triangleHtml += '</div>';
+            });
+            triangleHtml += '</div>';
+            triangleHtml += '<p class="text-muted mt-2"><small>Зеленые ячейки - коэффициенты полинома (первый столбец)</small></p>';
+            
+            document.getElementById('zhegalkin-visualization').innerHTML = triangleHtml;
+        }
+
+        function calculateZhegalkinTable(bits, variableCount) {
+            // Табличный метод (метод неопределённых коэффициентов)
+            const variables = getVariableNames(variableCount);
+            const n = bits.length; // 2^variableCount
+            
+            // Построение таблицы
+            // Столбцы: переменные, все произведения переменных, f
+            // Строки: все наборы значений переменных
+            
+            // Генерируем все термы полинома: 1, A, B, AB, C, AC, BC, ABC...
+            const terms = [];
+            for (let i = 0; i < n; i++) {
+                const binary = i.toString(2).padStart(variableCount, '0');
+                let termName = '';
+                for (let j = 0; j < binary.length; j++) {
+                    if (binary[j] === '1') {
+                        termName += variables[j];
+                    }
+                }
+                terms.push({
+                    index: i,
+                    name: termName || '1',
+                    vars: binary
+                });
+            }
+            
+            // Вычисляем значения каждого терма для каждого набора переменных
+            const tableData = [];
+            for (let row = 0; row < n; row++) {
+                const rowBinary = row.toString(2).padStart(variableCount, '0');
+                const rowData = {
+                    vars: rowBinary.split('').map(b => parseInt(b)),
+                    termValues: [],
+                    f: bits[row]
+                };
+                
+                for (let term of terms) {
+                    // Вычисляем значение терма (произведение переменных)
+                    let termValue = 1;
+                    for (let j = 0; j < variableCount; j++) {
+                        if (term.vars[j] === '1') {
+                            termValue &= rowData.vars[j];
+                        }
+                    }
+                    rowData.termValues.push(termValue);
+                }
+                
+                tableData.push(rowData);
+            }
+            
+            // Находим коэффициенты методом Гаусса (XOR)
+            // Коэффициент a_i = XOR всех f(x) где терм i равен 1
+            const coefficients = [];
+            for (let termIdx = 0; termIdx < n; termIdx++) {
+                let coef = 0;
+                for (let row = 0; row < n; row++) {
+                    // Проверяем, входит ли этот набор в подсчет коэффициента
+                    // Коэффициент при терме t: сумма по mod 2 всех f(x), где все переменные терма t равны 1
+                    const termVars = terms[termIdx].vars;
+                    let includeRow = true;
+                    for (let j = 0; j < variableCount; j++) {
+                        if (termVars[j] === '1' && tableData[row].vars[j] === 0) {
+                            includeRow = false;
+                            break;
+                        }
+                    }
+                    if (includeRow) {
+                        coef ^= tableData[row].f;
+                    }
+                }
+                coefficients.push(coef);
+            }
+            
+            // Альтернативный метод: прямое вычисление через XOR
+            // Коэффициент a_S = XOR f(x) по всем x >= S (поэлементно)
+            const directCoefficients = [];
+            for (let S = 0; S < n; S++) {
+                let coef = 0;
+                for (let x = 0; x < n; x++) {
+                    // x >= S означает, что для каждого бита S=1, соответствующий бит x тоже = 1
+                    if ((x & S) === S) {
+                        coef ^= bits[x];
+                    }
+                }
+                directCoefficients.push(coef);
+            }
+            
+            const polynomial = buildPolynomialString(directCoefficients, variableCount);
+            
+            // Строим HTML таблицы
+            let tableHtml = '<div class="zhegalkin-table">';
+            tableHtml += '<table class="table table-sm table-bordered">';
+            
+            // Заголовок
+            tableHtml += '<thead><tr>';
+            variables.forEach(v => tableHtml += `<th>${v}</th>`);
+            terms.forEach(t => tableHtml += `<th>${t.name}</th>`);
+            tableHtml += '<th>f</th>';
+            tableHtml += '</tr></thead>';
+            
+            // Данные
+            tableHtml += '<tbody>';
+            for (let row = 0; row < n; row++) {
+                tableHtml += '<tr>';
+                tableData[row].vars.forEach(v => tableHtml += `<td>${v}</td>`);
+                tableData[row].termValues.forEach((v, idx) => {
+                    const cls = directCoefficients[idx] === 1 ? 'highlight' : '';
+                    tableHtml += `<td class="${cls}">${v}</td>`;
+                });
+                tableHtml += `<td><strong>${tableData[row].f}</strong></td>`;
+                tableHtml += '</tr>';
+            }
+            tableHtml += '</tbody>';
+            
+            // Строка коэффициентов
+            tableHtml += '<tfoot><tr>';
+            variables.forEach(() => tableHtml += '<td></td>');
+            directCoefficients.forEach((c, idx) => {
+                tableHtml += `<td class="coef">${c}</td>`;
+            });
+            tableHtml += '<td></td></tr></tfoot>';
+            
+            tableHtml += '</table></div>';
+            
+            document.getElementById('zhegalkin-result').innerHTML = `
+                <div class="result-box">
+                    <h6><i class="fas fa-superscript"></i> Полином Жегалкина (табличный метод)</h6>
+                    <div class="formula-display">${polynomial}</div>
+                    <p><strong>Коэффициенты:</strong> ${directCoefficients.join(', ')}</p>
+                </div>
+            `;
+            
+            tableHtml += '<p class="text-muted mt-2"><small>Желтые ячейки - термы с ненулевыми коэффициентами. Зеленая строка внизу - найденные коэффициенты.</small></p>';
+            tableHtml += `<div class="alert alert-info mt-2">
+                <strong>Метод:</strong> Коэффициент a<sub>S</sub> = ⊕ f(x) по всем x, где x ≥ S (т.е. биты S включены в биты x)
+            </div>`;
+            
+            document.getElementById('zhegalkin-visualization').innerHTML = tableHtml;
+        }
+
+        function buildPolynomialString(coefficients, variableCount) {
+            const variables = getVariableNames(variableCount);
+            const terms = [];
+            
+            coefficients.forEach((coef, index) => {
+                if (coef === 1) {
+                    if (index === 0) {
+                        terms.push('1');
+                    } else {
+                        const binary = index.toString(2).padStart(variableCount, '0');
+                        const termVars = [];
+                        for (let i = 0; i < binary.length; i++) {
+                            if (binary[i] === '1') termVars.push(variables[i]);
+                        }
+                        terms.push(termVars.join('·'));
+                    }
+                }
+            });
+            
+            return terms.length > 0 ? terms.join(' ⊕ ') : '0';
+        }
+
+        // ========== МАШИНА ТЬЮРИНГА ==========
+        let turingMachine = {
+            tape: [],
+            headPosition: 0,
+            currentState: 'q0',
+            rules: new Map(),
+            steps: 0,
+            maxSteps: 1000,
+            isRunning: false,
+            interval: null
+        };
+
+        function parseTuringRules(rulesText) {
+            const rules = new Map();
+            const lines = rulesText.split('\n').filter(line => line.trim());
+            
+            lines.forEach(line => {
+                const parts = line.split(',').map(part => part.trim());
+                if (parts.length === 5) {
+                    const [currentState, currentSymbol, newSymbol, direction, newState] = parts;
+                    const key = `${currentState},${currentSymbol}`;
+                    rules.set(key, { newSymbol, direction, newState });
+                }
+            });
+            
+            return rules;
+        }
+
+        function runTuringMachine() {
+            const input = document.getElementById('turing-input').value.trim();
+            const rulesText = document.getElementById('turing-rules').value.trim();
+            
+            if (!input) {
+                alert('Введите входную строку');
+                return;
+            }
+            
+            if (!rulesText) {
+                alert('Введите правила машины Тьюринга');
+                return;
+            }
+            
+            // Инициализация
+            turingMachine.tape = ['B', ...input.split(''), 'B', 'B', 'B', 'B', 'B'];
+            turingMachine.headPosition = 1;
+            turingMachine.currentState = 'q0';
+            turingMachine.rules = parseTuringRules(rulesText);
+            turingMachine.steps = 0;
+            turingMachine.isRunning = true;
+            
+            displayTuringTape();
+            document.getElementById('turing-result').innerHTML = '';
+            
+            turingMachine.interval = setInterval(() => {
+                if (!stepTuringOnce()) {
+                    clearInterval(turingMachine.interval);
+                    turingMachine.isRunning = false;
+                    displayTuringResult();
+                }
+                displayTuringTape();
+            }, 500);
+        }
+
+        function stepTuringMachine() {
+            if (!turingMachine.tape.length) {
+                const input = document.getElementById('turing-input').value.trim();
+                const rulesText = document.getElementById('turing-rules').value.trim();
+                
+                if (!input || !rulesText) {
+                    alert('Введите входную строку и правила');
+                    return;
+                }
+                
+                turingMachine.tape = ['B', ...input.split(''), 'B', 'B', 'B', 'B', 'B'];
+                turingMachine.headPosition = 1;
+                turingMachine.currentState = 'q0';
+                turingMachine.rules = parseTuringRules(rulesText);
+                turingMachine.steps = 0;
+            }
+            
+            if (!stepTuringOnce()) {
+                displayTuringResult();
+            }
+            displayTuringTape();
+        }
+
+        function stepTuringOnce() {
+            if (turingMachine.steps >= turingMachine.maxSteps) return false;
+            if (turingMachine.currentState === 'qf' || turingMachine.currentState === 'qF' || turingMachine.currentState === 'halt') return false;
+            
+            const currentSymbol = turingMachine.tape[turingMachine.headPosition] || 'B';
+            const key = `${turingMachine.currentState},${currentSymbol}`;
+            const rule = turingMachine.rules.get(key);
+            
+            if (!rule) return false;
+            
+            turingMachine.tape[turingMachine.headPosition] = rule.newSymbol;
+            turingMachine.currentState = rule.newState;
+            
+            if (rule.direction === 'R') {
+                turingMachine.headPosition++;
+                if (turingMachine.headPosition >= turingMachine.tape.length) {
+                    turingMachine.tape.push('B');
+                }
+            } else if (rule.direction === 'L') {
+                turingMachine.headPosition--;
+                if (turingMachine.headPosition < 0) {
+                    turingMachine.tape.unshift('B');
+                    turingMachine.headPosition = 0;
+                }
+            }
+            
+            turingMachine.steps++;
+            
+            return turingMachine.currentState !== 'qf' && turingMachine.currentState !== 'qF' && turingMachine.currentState !== 'halt';
+        }
+
+        function resetTuringMachine() {
+            if (turingMachine.interval) clearInterval(turingMachine.interval);
+            turingMachine = {
+                tape: [],
+                headPosition: 0,
+                currentState: 'q0',
+                rules: new Map(),
+                steps: 0,
+                maxSteps: 1000,
+                isRunning: false,
+                interval: null
+            };
+            document.getElementById('turing-tape').innerHTML = '<div class="text-white text-center w-100">Лента появится после запуска</div>';
+            document.getElementById('current-state').textContent = 'q0';
+            document.getElementById('step-count').textContent = '0';
+            document.getElementById('turing-result').innerHTML = '';
+            document.getElementById('turing-explanation').innerHTML = '';
+        }
+
+        function displayTuringTape() {
+            const container = document.getElementById('turing-tape');
+            let html = '';
+            
+            const start = Math.max(0, turingMachine.headPosition - 5);
+            const end = Math.min(turingMachine.tape.length, turingMachine.headPosition + 6);
+            
+            for (let i = start; i < end; i++) {
+                const isHead = i === turingMachine.headPosition;
+                const cellClass = isHead ? 'turing-cell head' : 'turing-cell';
+                html += `<div class="${cellClass}">${turingMachine.tape[i] || 'B'}</div>`;
+            }
+            
+            container.innerHTML = html;
+            document.getElementById('current-state').textContent = turingMachine.currentState;
+            document.getElementById('step-count').textContent = turingMachine.steps;
+        }
+
+        function displayTuringResult() {
+            let result = turingMachine.tape.join('').replace(/B/g, '').trim();
+            if (!result) result = '(пустая строка)';
+            
+            document.getElementById('turing-result').innerHTML = `
+                <div class="result-box">
+                    <h6><i class="fas fa-check-circle"></i> Результат</h6>
+                    <div class="formula-display">${result}</div>
+                    <p><strong>Финальное состояние:</strong> ${turingMachine.currentState}</p>
+                    <p><strong>Всего шагов:</strong> ${turingMachine.steps}</p>
+                </div>
+            `;
+        }
+
+        function loadTuringExample(example) {
+            let input, rules, explanation;
+            
+            switch (example) {
+                case 'increment':
+                    // Простейший инкремент унарного числа: добавить 1 в конец
+                    input = '111';
+                    rules = `q0,1,1,R,q0
+q0,B,1,N,qf`;
+                    explanation = `<div class="info-box">
+                        <h6>Инкремент унарного числа (+1)</h6>
+                        <p><strong>Вход:</strong> 111 (число 3 в унарной системе)</p>
+                        <p><strong>Ожидаемый результат:</strong> 1111 (число 4)</p>
+                        <p><strong>Алгоритм:</strong></p>
+                        <ul>
+                            <li>q0: Двигаемся вправо по всем единицам</li>
+                            <li>Когда встретили пустой символ B, записываем 1 и останавливаемся</li>
+                        </ul>
+                    </div>`;
+                    break;
+                    
+                case 'double':
+                    // Удвоение числа единиц
+                    input = '11';
+                    rules = `q0,1,X,R,q1
+q0,B,B,N,qf
+q1,1,1,R,q1
+q1,B,1,L,q2
+q2,1,1,L,q2
+q2,X,1,R,q3
+q3,1,1,R,q3
+q3,B,1,L,q4
+q4,1,1,L,q4
+q4,X,X,R,q0`;
+                    explanation = `<div class="info-box">
+                        <h6>Удвоение унарного числа</h6>
+                        <p><strong>Вход:</strong> 11 (число 2)</p>
+                        <p><strong>Ожидаемый результат:</strong> 1111 (число 4)</p>
+                        <p><strong>Алгоритм:</strong></p>
+                        <ul>
+                            <li>Помечаем каждую единицу символом X</li>
+                            <li>Для каждой помеченной единицы добавляем одну единицу в конец</li>
+                            <li>Возвращаемся и восстанавливаем X обратно в 1</li>
+                        </ul>
+                    </div>`;
+                    break;
+                    
+                case 'addition':
+                    // Сложение двух унарных чисел
+                    input = '11+11';
+                    rules = `q0,1,1,R,q0
+q0,+,1,R,q1
+q1,1,1,R,q1
+q1,B,B,L,q2
+q2,1,B,N,qf`;
+                    explanation = `<div class="info-box">
+                        <h6>Сложение унарных чисел</h6>
+                        <p><strong>Вход:</strong> 11+11 (2 + 2)</p>
+                        <p><strong>Ожидаемый результат:</strong> 111 (= 3, т.к. + заменяется на 1, потом последняя 1 удаляется)</p>
+                        <p><strong>Алгоритм:</strong></p>
+                        <ul>
+                            <li>Заменяем + на 1 (соединяем числа)</li>
+                            <li>Удаляем одну единицу с конца (компенсация)</li>
+                            <li>Результат: n + m единиц</li>
+                        </ul>
+                    </div>`;
+                    break;
+            }
+            
+            document.getElementById('turing-input').value = input;
+            document.getElementById('turing-rules').value = rules;
+            document.getElementById('turing-explanation').innerHTML = explanation;
+        }
+
+        // ========== АЛГОРИТМ МАРКОВА ==========
+        let markovAlgorithm = {
+            currentString: '',
+            rules: [],
+            steps: [],
+            stepCount: 0,
+            maxSteps: 100,
+            isRunning: false,
+            interval: null
+        };
+
+        function parseMarkovRules(rulesText) {
+            const rules = [];
+            const lines = rulesText.split('\n').filter(line => line.trim());
+            
+            lines.forEach(line => {
+                // Поддержка разных форматов
+                let parts;
+                if (line.includes('->')) {
+                    parts = line.split('->').map(part => part.trim());
+                } else if (line.includes('→')) {
+                    parts = line.split('→').map(part => part.trim());
+                } else {
+                    return;
+                }
+                
+                if (parts.length === 2) {
+                    let pattern = parts[0];
+                    let replacement = parts[1];
+                    let isFinal = false;
+                    
+                    // Проверка на завершающее правило
+                    if (pattern.startsWith('.')) {
+                        isFinal = true;
+                        pattern = pattern.substring(1);
+                    }
+                    
+                    rules.push({
+                        pattern: pattern,
+                        replacement: replacement,
+                        isFinal: isFinal,
+                        original: line
+                    });
+                }
+            });
+            
+            return rules;
+        }
+
+        function runMarkovAlgorithm() {
+            const input = document.getElementById('markov-input').value.trim();
+            const rulesText = document.getElementById('markov-rules').value.trim();
+            
+            if (!input) {
+                alert('Введите входную строку');
+                return;
+            }
+            
+            if (!rulesText) {
+                alert('Введите правила алгоритма Маркова');
+                return;
+            }
+            
+            // Останавливаем предыдущее выполнение
+            if (markovAlgorithm.interval) {
+                clearInterval(markovAlgorithm.interval);
+            }
+            
+            markovAlgorithm.currentString = input;
+            markovAlgorithm.rules = parseMarkovRules(rulesText);
+            markovAlgorithm.steps = [{ step: 0, string: input, description: 'Начальная строка' }];
+            markovAlgorithm.stepCount = 0;
+            markovAlgorithm.isRunning = true;
+            
+            displayMarkovSteps();
+            document.getElementById('markov-result').innerHTML = '';
+            
+            markovAlgorithm.interval = setInterval(() => {
+                if (!stepMarkovOnce()) {
+                    clearInterval(markovAlgorithm.interval);
+                    markovAlgorithm.isRunning = false;
+                    displayMarkovResult();
+                }
+                displayMarkovSteps();
+            }, 500);
+        }
+
+        function stepMarkovAlgorithm() {
+            if (!markovAlgorithm.currentString && !markovAlgorithm.rules.length) {
+                const input = document.getElementById('markov-input').value.trim();
+                const rulesText = document.getElementById('markov-rules').value.trim();
+                
+                if (!input || !rulesText) {
+                    alert('Введите входную строку и правила');
+                    return;
+                }
+                
+                markovAlgorithm.currentString = input;
+                markovAlgorithm.rules = parseMarkovRules(rulesText);
+                markovAlgorithm.steps = [{ step: 0, string: input, description: 'Начальная строка' }];
+                markovAlgorithm.stepCount = 0;
+            }
+            
+            if (!stepMarkovOnce()) {
+                displayMarkovResult();
+            }
+            displayMarkovSteps();
+        }
+
+        function stepMarkovOnce() {
+            if (markovAlgorithm.stepCount >= markovAlgorithm.maxSteps) {
+                markovAlgorithm.steps.push({
+                    step: markovAlgorithm.stepCount + 1,
+                    string: markovAlgorithm.currentString,
+                    description: 'Достигнут лимит шагов'
+                });
+                return false;
+            }
+            
+            for (const rule of markovAlgorithm.rules) {
+                const index = markovAlgorithm.currentString.indexOf(rule.pattern);
+                if (index !== -1) {
+                    markovAlgorithm.currentString = 
+                        markovAlgorithm.currentString.substring(0, index) + 
+                        rule.replacement + 
+                        markovAlgorithm.currentString.substring(index + rule.pattern.length);
+                    
+                    markovAlgorithm.stepCount++;
+                    markovAlgorithm.steps.push({
+                        step: markovAlgorithm.stepCount,
+                        string: markovAlgorithm.currentString,
+                        description: `Применено правило: ${rule.original}`
+                    });
+                    
+                    if (rule.isFinal) {
+                        markovAlgorithm.steps.push({
+                            step: markovAlgorithm.stepCount + 1,
+                            string: markovAlgorithm.currentString,
+                            description: 'Применено завершающее правило - СТОП'
+                        });
+                        return false;
+                    }
+                    
+                    return true;
+                }
+            }
+            
+            markovAlgorithm.steps.push({
+                step: markovAlgorithm.stepCount + 1,
+                string: markovAlgorithm.currentString,
+                description: 'Нет применимых правил - СТОП'
+            });
+            return false;
+        }
+
+        function resetMarkovAlgorithm() {
+            if (markovAlgorithm.interval) clearInterval(markovAlgorithm.interval);
+            markovAlgorithm = {
+                currentString: '',
+                rules: [],
+                steps: [],
+                stepCount: 0,
+                maxSteps: 100,
+                isRunning: false,
+                interval: null
+            };
+            document.getElementById('markov-steps').innerHTML = '<div class="text-muted text-center">Шаги выполнения появятся здесь</div>';
+            document.getElementById('markov-result').innerHTML = '';
+        }
+
+        function displayMarkovSteps() {
+            const container = document.getElementById('markov-steps');
+            let html = '';
+            
+            markovAlgorithm.steps.forEach((step, index) => {
+                const isCurrent = index === markovAlgorithm.steps.length - 1;
+                const stepClass = isCurrent ? 'markov-step current' : 'markov-step';
+                html += `<div class="${stepClass}">
+                    <strong>Шаг ${step.step}:</strong> "${step.string}"<br>
+                    <small class="text-muted">${step.description}</small>
+                </div>`;
+            });
+            
+            container.innerHTML = html;
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function displayMarkovResult() {
+            document.getElementById('markov-result').innerHTML = `
+                <div class="result-box">
+                    <h6><i class="fas fa-check-circle"></i> Результат</h6>
+                    <div class="formula-display">${markovAlgorithm.currentString || '(пустая строка)'}</div>
+                    <p><strong>Всего шагов:</strong> ${markovAlgorithm.stepCount}</p>
+                </div>
+            `;
+        }
+
+        function loadMarkovExample(example) {
+            let input, rules;
+            
+            switch (example) {
+                case 'replace':
+                    // Простая замена символов
+                    input = 'abc';
+                    rules = `a -> x
+b -> y
+c -> z`;
+                    break;
+                    
+                case 'remove':
+                    // Удаление всех 'a'
+                    input = 'aabaca';
+                    rules = `a -> `;
+                    break;
+                    
+                case 'unary-increment':
+                    // Инкремент унарного числа (добавление единицы)
+                    input = '111';
+                    rules = `1 -> 1*
+* -> 1`;
+                    break;
+                    
+                case 'reverse':
+                    // Перестановка ab -> ba
+                    input = 'aabb';
+                    rules = `ab -> ba`;
+                    break;
+            }
+            
+            document.getElementById('markov-input').value = input;
+            document.getElementById('markov-rules').value = rules;
+        }
+
+        // ========== ПЛАВНАЯ ПРОКРУТКА ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
